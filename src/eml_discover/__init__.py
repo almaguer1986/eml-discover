@@ -18,7 +18,7 @@ from __future__ import annotations
 from .identify import Match, identify
 from .registry import FORMULAS, Formula, by_name, list_all, list_by_domain
 
-__version__ = "0.1.0"
+__version__ = "0.2.0"
 
 __all__ = [
     "__version__",

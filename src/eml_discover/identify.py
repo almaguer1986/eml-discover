@@ -80,12 +80,16 @@ def _rename_attempts(
         yield dict(zip(template_syms, chosen))
 
 
-def _try_match(template: sp.Basic, user: sp.Basic, rename: dict) -> bool:
+def _try_match(
+    template: sp.Basic,
+    user: sp.Basic,
+    rename: dict[sp.Symbol, sp.Symbol],
+) -> bool:
     """True when template.subs(rename) is symbolically equal to user."""
     try:
         renamed = template.subs(rename) if rename else template
         diff = sp.simplify(renamed - user)
-        return diff == 0
+        return bool(diff == 0)
     except (TypeError, ValueError, RecursionError):
         return False
 

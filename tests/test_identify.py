@@ -116,8 +116,55 @@ def test_exact_matches_rank_above_axes_matches() -> None:
 # ---------------------------------------------------------------------------
 
 
-def test_registry_contains_at_least_15_formulas() -> None:
-    assert len(FORMULAS) >= 15
+def test_registry_contains_at_least_50_formulas() -> None:
+    assert len(FORMULAS) >= 50
+
+
+def test_registry_covers_canonical_domains() -> None:
+    """The registry must include entries from every advertised domain."""
+    domains = {f.domain for f in FORMULAS}
+    for advertised in (
+        "statistics", "ml", "physics", "finance",
+        "trigonometry", "hyperbolic", "info-theory",
+    ):
+        assert advertised in domains, f"missing domain: {advertised}"
+
+
+def test_lorentz_factor_recognized() -> None:
+    """Identify the relativity gamma factor under variable rename."""
+    vc = sp.Symbol("vc", real=True)
+    cc = sp.Symbol("cc", real=True, positive=True)
+    matches = identify(1 / sp.sqrt(1 - (vc / cc) ** 2))
+    names = {m.formula.name for m in matches}
+    assert "Lorentz factor" in names
+
+
+def test_kl_divergence_single_term_recognized() -> None:
+    pp = sp.Symbol("pp", real=True, positive=True)
+    qq = sp.Symbol("qq", real=True, positive=True)
+    matches = identify(pp * sp.log(pp / qq))
+    names = {m.formula.name for m in matches}
+    assert "KL divergence (single term)" in names
+
+
+def test_rc_decay_recognized() -> None:
+    Rv = sp.Symbol("Rv", real=True, positive=True)
+    Cv = sp.Symbol("Cv", real=True, positive=True)
+    tv = sp.Symbol("tv", real=True)
+    matches = identify(sp.exp(-tv / (Rv * Cv)))
+    names = {m.formula.name for m in matches}
+    assert "RC voltage decay" in names
+
+
+def test_perpetuity_recognized() -> None:
+    """C / r is the simplest finance template; ensure the identifier
+    handles trivial-shape registry entries."""
+    cc = sp.Symbol("cc", real=True, positive=True)
+    rr = sp.Symbol("rr", real=True, positive=True)
+    matches = identify(cc / rr)
+    names = {m.formula.name for m in matches}
+    assert "perpetuity" in names
+
 
 
 def test_by_name_lookup_is_case_insensitive() -> None:
