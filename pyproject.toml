@@ -1,0 +1,66 @@
+[build-system]
+requires = ["setuptools>=64"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "eml-discover"
+version = "0.1.0"
+description = "Identify famous mathematical formulas from arbitrary SymPy expressions."
+readme = "README.md"
+requires-python = ">=3.10"
+license = { text = "PROPRIETARY-PRE-RELEASE" }
+authors = [
+    { name = "Monogate Research" },
+]
+keywords = [
+    "symbolic-computation",
+    "formula-recognition",
+    "pfaffian",
+    "sympy",
+    "discovery",
+]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Science/Research",
+    "Intended Audience :: Education",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Scientific/Engineering :: Mathematics",
+]
+dependencies = [
+    "sympy>=1.12",
+    # Loose floor: 0.1.0a0 is on PyPI today; 0.1.1 (with `fingerprint`)
+    # is built locally but not yet uploaded. Tighten to >=0.1.1 once
+    # `twine upload` ships eml-cost 0.1.1. See _admin/RELEASE.md
+    # in monogate-research for the publish-order checklist.
+    "eml-cost>=0.1.0a0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=7.0",
+    "mypy>=1.5",
+    "ruff>=0.1",
+]
+
+[project.urls]
+Homepage = "https://monogate.org"
+Repository = "https://github.com/almaguer1986/eml-discover"
+Issues = "https://github.com/almaguer1986/eml-discover/issues"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools.package-data]
+eml_discover = ["py.typed"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-v --strict-markers"
+
+[tool.mypy]
+python_version = "3.10"
+strict = true
+ignore_missing_imports = true
