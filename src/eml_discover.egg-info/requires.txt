@@ -1,7 +1,0 @@
-sympy>=1.12
-eml-cost>=0.1.0a0
-
-[dev]
-pytest>=7.0
-mypy>=1.5
-ruff>=0.1
