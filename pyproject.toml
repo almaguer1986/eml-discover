@@ -31,11 +31,12 @@ classifiers = [
 ]
 dependencies = [
     "sympy>=1.12",
-    # Loose floor: 0.1.0a0 is on PyPI today; 0.1.1 (with `fingerprint`)
-    # is built locally but not yet uploaded. Tighten to >=0.1.1 once
-    # `twine upload` ships eml-cost 0.1.1. See _admin/RELEASE.md
-    # in monogate-research for the publish-order checklist.
-    "eml-cost>=0.1.0a0",
+    # eml-cost 0.2.0 (published 2026-04-25) is the floor — `fingerprint`
+    # was added in 0.1.1, `fingerprint_axes` + `cache_by_fingerprint`
+    # in 0.2.0, both of which this package's identify.py imports.
+    # The prior `>=0.1.0a0` constraint let pip resolve to the alpha
+    # and crash on import.
+    "eml-cost>=0.2.0",
 ]
 
 [project.optional-dependencies]
